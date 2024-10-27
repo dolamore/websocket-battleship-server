@@ -1,7 +1,7 @@
 import * as http from 'http';
 import {WebSocketServer, WebSocket} from 'ws';
 import {handleMessage} from "../routes/userRoutes";
-import {handleDisconnect} from "../routes/utils";
+import {handleDisconnect} from "../routes/utils/playerUtils";
 
 export function setupWebSocketServer() {
     const wsHttpServer = http.createServer();

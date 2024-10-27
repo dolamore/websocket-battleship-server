@@ -1,5 +1,6 @@
-import {Room, rooms} from "./room";
+import {rooms} from "./room";
 import {users} from "./user";
+import {ShipData} from "../types/types";
 
 export const successfulRegMessage = (name: string) => {
     return JSON.stringify({
@@ -27,12 +28,12 @@ export const errorRegMessage = () => {
     });
 }
 
-export const gameCreationMessage = (idGame: number) => {
+export const gameCreationMessage = (idGame: number, userId: number) => {
     return JSON.stringify({
         type: "create_game",
         data: JSON.stringify({
-            idGame: 0,
-            idPlayer: 0,
+            idGame: `${idGame}`,
+            idPlayer: `${userId}`,
         }),
         id: 0,
     });
@@ -66,6 +67,16 @@ export const updateWinnersMessage = () => {
     return JSON.stringify({
         type: "update_winners",
         data: JSON.stringify(winners),
+        id: 0,
+    });
+}
+
+export const startGameMessage = (shipsData: ShipData | undefined) => {
+    return JSON.stringify({
+        type: "start_game",
+        data: JSON.stringify({
+            shipsData,
+        }),
         id: 0,
     });
 }

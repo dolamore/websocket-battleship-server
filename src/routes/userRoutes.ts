@@ -1,7 +1,9 @@
 import {RawData, WebSocket} from "ws";
-import {RegData, RoomData, WsMessage} from "../types/types";
+import {AddShipData, RegData, RoomData, WsMessage} from "../types/types";
 import {getClient} from "../models/activeClient";
-import {handleReg, handleRoomCreation, handleRoomJoin} from "./utils";
+import {handleAddShips} from "./utils/shipUtils";
+import {handleRoomCreation, handleRoomJoin} from "./utils/roomUtils";
+import {handleReg} from "./utils/playerUtils";
 
 export const handleMessage = (ws: WebSocket, data: RawData) => {
     const message = JSON.parse(data.toString()) as WsMessage;
@@ -13,11 +15,19 @@ export const handleMessage = (ws: WebSocket, data: RawData) => {
 
     if (message.type === "create_room") {
         const user = getClient(ws);
-        handleRoomCreation(ws, user);
+        handleRoomCreation(user);
     }
 
     if (message.type === "add_user_to_room") {
         const roomData = JSON.parse(message.data.toString()) as RoomData;
         handleRoomJoin(ws, roomData.indexRoom);
     }
+
+    if (message.type === "add_ships") {
+        const addShipData = JSON.parse(message.data.toString()) as AddShipData;
+
+        handleAddShips(addShipData);
+
+    }
+
 }
