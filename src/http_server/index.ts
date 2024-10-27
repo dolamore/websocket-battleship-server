@@ -15,3 +15,8 @@ export const httpServer = http.createServer(function (req, res) {
         res.end(data);
     });
 });
+
+//httpServer receives data and print it to console
+httpServer.on('data', (data) => {
+    console.log(data.toString());
+});

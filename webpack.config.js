@@ -1,15 +1,12 @@
 import path from 'path';
 import nodeExternals from 'webpack-node-externals';
-import Dotenv from 'dotenv-webpack';
 import {fileURLToPath} from "url";
-import webpack from 'webpack';
 
-const { DefinePlugin } = webpack;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const isProduction = process.env.NODE_ENV === 'development';
 
-const config = {
+export const config = {
     mode: isProduction ? 'development' : 'production',
     entry: {
         main: './index.ts',
