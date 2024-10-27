@@ -1,10 +1,14 @@
-interface WsMessage {
+export interface WsMessage {
     type: string;
     data: RegData;
     id: number;
 }
 
-interface RegData {
+export interface RegData {
     name: string;
     password: string;
+}
+
+export interface RoomData {
+    indexRoom: number;
 }
