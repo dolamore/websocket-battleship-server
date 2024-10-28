@@ -5,12 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "build": "webpack",
-        "build:dev": "cross-env NODE_ENV=development webpack",
-        "build:watch": "webpack --config webpack.config.js --watch",
-        "start": "tsx index.ts",
-        "start:dev2": "nodemon --watch './**/*.ts' --exec 'tsx' index.ts",
-        "start:dev": "nodemon --watch src --ext ts --exec \"npm run build:dev && node dist/bundle.js\"",
+        "start:dev": "nodemon --watch './**/*.ts' --exec 'tsx' index.ts",
+        "start:prod": "tsx index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Andrei Auchynnikau",

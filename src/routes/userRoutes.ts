@@ -4,6 +4,8 @@ import {getClient} from "../models/activeClient";
 import {handleAddShips} from "./utils/shipUtils";
 import {handleRoomCreation, handleRoomJoin} from "./utils/roomUtils";
 import {handleReg} from "./utils/playerUtils";
+import {AttackData} from "../types/gameTypes";
+import {handleAttack} from "./utils/gameUtils";
 
 export const handleMessage = (ws: WebSocket, data: RawData) => {
     const message = JSON.parse(data.toString()) as WsMessage;
@@ -27,7 +29,11 @@ export const handleMessage = (ws: WebSocket, data: RawData) => {
         const addShipData = JSON.parse(message.data.toString()) as AddShipData;
 
         handleAddShips(addShipData);
+    }
 
+    if  (message.type === "attack") {
+        const attackData = JSON.parse(message.data.toString()) as AttackData;
+        handleAttack(attackData);
     }
 
 }

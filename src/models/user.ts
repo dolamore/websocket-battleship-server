@@ -23,6 +23,10 @@ export const checkUser = (username: string): boolean => {
     return !users.some(user => user.username === username);
 }
 
+export const checkPassword = (username: string, password: string): boolean => {
+    return users.some(user => user.username === username && user.password === password);
+}
+
 export const getUser = (userId: number): User => {
     return <User>users.find(user => user.userId === userId);
 }

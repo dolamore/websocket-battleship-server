@@ -14,22 +14,22 @@ export interface RoomData {
 }
 
 export interface AddShipData {
-    ships: Ships[],
+    ships: Ship[],
     gameId: number,
     indexPlayer: number,
 
 }
 
 export interface ShipData {
-    ships: Ships[],
+    ships: Ship[],
     currentPlayerIndex: number,
 }
 
-export interface Ships {
-    position: Position[],
+export interface Ship {
+    position: Position,
     direction: boolean,
     length: number,
-    type: Sizes
+    type: string
 }
 
 export interface Position {

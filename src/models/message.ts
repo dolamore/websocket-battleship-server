@@ -1,13 +1,13 @@
 import {rooms} from "./room";
 import {users} from "./user";
-import {ShipData} from "../types/types";
+import {Ship} from "../types/types";
 
 export const successfulRegMessage = (name: string) => {
     return JSON.stringify({
         type: 'reg',
         data: JSON.stringify({
             name: `${name}`,
-            index: 0,
+            index: users.length - 1,
             error: false,
             errorText: ""
         }),
@@ -22,7 +22,7 @@ export const errorRegMessage = () => {
             name: "",
             index: 0,
             error: true,
-            errorText: "User already exists"
+            errorText: "User already exists and the password is incorrect"
         }),
         id: 0,
     });
@@ -41,21 +41,26 @@ export const gameCreationMessage = (idGame: number, userId: number) => {
 
 export const updateRoomMessage = () => {
     const filteredRooms = rooms
-        .filter(room => room.roomUsers.length === 1)
-        .map(room => ({
-            roomId: room.roomId,
-            roomUsers: room.roomUsers.map(player => ({
-                name: player.name,
-                id: player.index,
-            })),
-        }));
+        .filter(room => room.roomUsers.length === 1);
 
-
-    return JSON.stringify({
+    const roomJSON = JSON.stringify({
         type: "update_room",
-        data: JSON.stringify(filteredRooms),
+        data: JSON.stringify(
+            filteredRooms.map(room => ({
+                roomId: room.roomId,
+                roomUsers: room.roomUsers.map(player => ({
+                    name: player.name,
+                    id: player.index,
+                })),
+            })),
+        ),
         id: 0,
     });
+
+    console.log(roomJSON);
+
+
+    return roomJSON;
 }
 
 export const updateWinnersMessage = () => {
@@ -71,11 +76,20 @@ export const updateWinnersMessage = () => {
     });
 }
 
-export const startGameMessage = (shipsData: ShipData | undefined) => {
+export const startGameMessage = (userId: number, shipsData: Ship[] | undefined) => {
     return JSON.stringify({
         type: "start_game",
         data: JSON.stringify({
-            shipsData,
+            ships: shipsData?.map(ship => ({
+                position: {
+                    x: ship.position.x,
+                    y: ship.position.y,
+                },
+                direction: ship.direction,
+                length: ship.length,
+                type: ship.type,
+            })),
+            currentPlayerIndex: userId,
         }),
         id: 0,
     });

@@ -1,5 +1,5 @@
 import {WebSocket} from "ws";
-import {addUser, checkUser} from "../../models/user";
+import {addUser, checkPassword, checkUser, User, users} from "../../models/user";
 import {activeClient, addClient} from "../../models/activeClient";
 import {errorRegMessage, successfulRegMessage, updateWinnersMessage} from "../../models/message";
 import {updateRoomList} from "./roomUtils";
@@ -9,16 +9,17 @@ export const handleReg = (ws: WebSocket, name: string, password: string) => {
     if (checkUser(name)) {
         const newUser = addUser(name, password);
 
-        addClient(newUser.userId, ws);
-
-        ws.send(successfulRegMessage(name));
-
-        updateRoomList();
-        updateWinnersList();
-
-        return newUser;
+        return enterMainPage(ws, newUser);
     } else {
-        ws.send(errorRegMessage());
+        if (checkPassword(name, password)) {
+            const existingUser = users.find(user => user.username === name);
+
+            // @ts-ignore
+            return enterMainPage(ws, existingUser);
+            ;
+        } else {
+            ws.send(errorRegMessage());
+        }
     }
 }
 
@@ -34,4 +35,15 @@ export const handleDisconnect = (ws: WebSocket) => {
             activeClient.delete(key);
         }
     });
+}
+
+export const enterMainPage = (ws: WebSocket, user: User): User => {
+    addClient(user.userId, ws);
+
+    ws.send(successfulRegMessage(user.username));
+
+    updateRoomList();
+    updateWinnersList();
+
+    return user;
 }
