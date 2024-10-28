@@ -1,6 +1,6 @@
 import {Player} from "./player";
 import {getUser, User} from "./user";
-import {Ship, ShipData} from "../types/types";
+import {Ship} from "../types/types";
 
 export interface Room {
     roomId: number,
@@ -49,22 +49,6 @@ export const setPlayerShips = (roomId: number, userId: number, ships: Ship[]): v
     room.playersShips.set(userId, ships);
 }
 
-export const setPlayerReady = (roomId: number, userId: number): void => {
-    const room = getRoom(roomId);
-
-    room.playersReady.set(userId, true);
-}
-
-export const arePlayersReady = (roomId: number): boolean => {
-    const room = getRoom(roomId);
-
-    if (!room.playersReady) {
-        return false;
-    }
-
-    return room.playersReady.size === 2 && Array.from(room.playersReady.values()).every(value => value);
-}
-
 export const changeTurnByRoomIndex = (roomIndex: number): void => {
     const room = getRoom(roomIndex);
 
@@ -75,9 +59,4 @@ export const getCurrentPlayerId = (roomIndex: number): number => {
     const room = getRoom(roomIndex);
 
     return room.isTurn ? room.roomUsers[0].index : room.roomUsers[1].index;
-}
-
-
-//TODO сделать проверку на наличие кораблей у игрока
-export const hasShips = (playerId: number) => {
 }

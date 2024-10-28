@@ -6,10 +6,6 @@ export const addClient = (userId: number, ws: WebSocket) => {
     activeClient.set(userId, ws);
 }
 
-export const removeClient = (userId: number) => {
-    activeClient.delete(userId);
-}
-
 export const getClient = (ws: WebSocket) => {
     let userId = 0;
     activeClient.forEach((value, key) => {
