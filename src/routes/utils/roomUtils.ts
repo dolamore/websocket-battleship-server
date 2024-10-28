@@ -1,7 +1,7 @@
 import {addRoom, addUserToRoom, getRoom, hasUserInRoom} from "../../models/room";
 import {activeClient, getClient} from "../../models/activeClient";
 import {WebSocket} from "ws";
-import {gameCreationMessage, updateRoomMessage} from "../../models/message";
+import {gameCreationMessage, updateRoomMessage} from "../../models/messages/message";
 import {getUser} from "../../models/user";
 
 export const handleRoomCreation = (userId: number) => {

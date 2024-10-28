@@ -30,3 +30,8 @@ export const checkPassword = (username: string, password: string): boolean => {
 export const getUser = (userId: number): User => {
     return <User>users.find(user => user.userId === userId);
 }
+
+export const addWinPoint = (userId: number): void => {
+    const user = getUser(userId);
+    user.wins++;
+}

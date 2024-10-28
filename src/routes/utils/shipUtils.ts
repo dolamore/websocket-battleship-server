@@ -1,7 +1,7 @@
 import {AddShipData, Ship} from "../../types/types";
 import {getCurrentPlayerId, getRoom, getRoomByUser, setPlayerShips} from "../../models/room";
 import {activeClient} from "../../models/activeClient";
-import {startGameMessage} from "../../models/message";
+import {startGameMessage} from "../../models/messages/message";
 import {turnMessage} from "../../models/messages/gameMessage";
 
 export const handleAddShips = (addShipData: AddShipData) => {
@@ -9,6 +9,10 @@ export const handleAddShips = (addShipData: AddShipData) => {
     const gameId = Number(addShipData.gameId);
     const indexPlayer = Number(addShipData.indexPlayer);
     const room = getRoomByUser(indexPlayer);
+
+    shipData.forEach(ship => {
+        ship.position = JSON.parse(JSON.stringify(ship.position));
+    });
 
     setPlayerShips(gameId, indexPlayer, shipData);
 

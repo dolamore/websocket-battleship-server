@@ -1,7 +1,7 @@
 import {WebSocket} from "ws";
 import {addUser, checkPassword, checkUser, User, users} from "../../models/user";
 import {activeClient, addClient} from "../../models/activeClient";
-import {errorRegMessage, successfulRegMessage, updateWinnersMessage} from "../../models/message";
+import {errorRegMessage, successfulRegMessage, updateWinnersMessage} from "../../models/messages/message";
 import {updateRoomList} from "./roomUtils";
 
 export const handleReg = (ws: WebSocket, name: string, password: string) => {
@@ -23,7 +23,7 @@ export const handleReg = (ws: WebSocket, name: string, password: string) => {
     }
 }
 
-const updateWinnersList = () => {
+export const updateWinnersList = () => {
     activeClient.forEach((ws: WebSocket) => {
         ws.send(updateWinnersMessage());
     })

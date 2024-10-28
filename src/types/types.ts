@@ -29,14 +29,11 @@ export interface Ship {
     position: Position,
     direction: boolean,
     length: number,
-    type: string
+    type: string,
+    hits: Position[];
 }
 
 export interface Position {
     x: number,
     y: number,
-}
-
-enum Sizes {
-    "small", "medium", "large", "huge"
 }

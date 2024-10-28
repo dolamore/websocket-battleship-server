@@ -16,3 +16,11 @@ export const turnMessage = (currentPlayerId: TurnData) => {
         id: 0,
     });
 }
+
+export const finishGameMessage = (winner: number | string) => {
+    return JSON.stringify({
+        type: "finish",
+        data: JSON.stringify({winPlayer: `${winner}`}),
+        id: 0,
+    });
+}

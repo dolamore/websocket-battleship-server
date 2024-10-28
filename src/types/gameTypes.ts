@@ -10,7 +10,7 @@ export interface AttackData {
 export interface AttackFeedbackData {
     position: Position,
     currentPlayer: number | string,
-    status: string;
+    status: "miss" | "shot" | "killed",
 }
 
 export interface randomAttackData {
@@ -20,8 +20,4 @@ export interface randomAttackData {
 
 export interface TurnData {
     currentPlayer: number | string,
-}
-
-export interface finishData {
-    winPlayer: number | string,
 }

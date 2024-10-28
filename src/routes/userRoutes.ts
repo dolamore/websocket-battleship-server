@@ -1,6 +1,6 @@
 import {RawData, WebSocket} from "ws";
 import {AddShipData, RegData, RoomData, WsMessage} from "../types/types";
-import {getClient} from "../models/activeClient";
+import {activeClient, getClient} from "../models/activeClient";
 import {handleAddShips} from "./utils/shipUtils";
 import {handleRoomCreation, handleRoomJoin} from "./utils/roomUtils";
 import {handleReg} from "./utils/playerUtils";
@@ -31,9 +31,15 @@ export const handleMessage = (ws: WebSocket, data: RawData) => {
         handleAddShips(addShipData);
     }
 
-    if  (message.type === "attack") {
+    if (message.type === "attack") {
         const attackData = JSON.parse(message.data.toString()) as AttackData;
-        handleAttack(attackData);
+
+        const indexPlayer = Number(attackData.indexPlayer);
+
+        if (activeClient.get(indexPlayer) === ws) {
+            handleAttack(attackData);
+        }
+
     }
 
 }

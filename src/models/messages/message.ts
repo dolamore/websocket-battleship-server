@@ -1,6 +1,6 @@
-import {rooms} from "./room";
-import {users} from "./user";
-import {Ship} from "../types/types";
+import {rooms} from "../room";
+import {users} from "../user";
+import {Ship} from "../../types/types";
 
 export const successfulRegMessage = (name: string) => {
     return JSON.stringify({

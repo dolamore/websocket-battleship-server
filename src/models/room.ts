@@ -1,6 +1,6 @@
 import {Player} from "./player";
 import {getUser, User} from "./user";
-import {Ship} from "../types/types";
+import {Position, Ship} from "../types/types";
 
 export interface Room {
     roomId: number,
@@ -45,6 +45,9 @@ export const hasUserInRoom = (room: Room, userId: number): boolean => {
 
 export const setPlayerShips = (roomId: number, userId: number, ships: Ship[]): void => {
     const room = getRoom(roomId);
+    ships.map(ship => {
+        ship.hits = [];
+    })
 
     room.playersShips.set(userId, ships);
 }
@@ -60,3 +63,40 @@ export const getCurrentPlayerId = (roomIndex: number): number => {
 
     return room.isTurn ? room.roomUsers[0].index : room.roomUsers[1].index;
 }
+
+export const getShipPositions = (ship: Ship): Position[] => {
+    const positions: Position[] = [];
+
+    for (let i = 0; i < ship.length; i++) {
+        const pos = ship.direction
+            ? {x: ship.position.x, y: ship.position.y + i} // вертикальный корабль
+            : {x: ship.position.x + i, y: ship.position.y}; // горизонтальный корабль
+        positions.push(pos);
+    }
+
+    return positions;
+};
+
+const handleAttack = (ship: Ship, target: Position): boolean => {
+    const positions = getShipPositions(ship);
+
+    const isHit = positions.some(pos => pos.x === target.x && pos.y === target.y);
+
+    if (isHit) {
+        ship.hits.push(target);
+        return true;
+    }
+
+    return false;
+};
+
+export const isShipDestroyed = (ship: Ship): boolean => {
+    const positions = getShipPositions(ship);
+    return positions.every(pos =>
+        ship.hits.some(hit => hit.x === pos.x && hit.y === pos.y)
+    );
+};
+
+export const isGameOver = (ships: Ship[]): boolean => {
+    return ships.every(ship => isShipDestroyed(ship));
+};
